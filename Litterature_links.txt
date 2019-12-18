@@ -1,0 +1,14 @@
+http://karthikabinavs.xyz/surveySemiBandit.pdf
+
+
+https://jeremykun.com/2013/11/08/adversarial-bandits-and-the-exp3-algorithm/
+
+https://fenix.tecnico.ulisboa.pt/downloadFile/1689468335557265/lec07.pdf
+
+https://github.com/diku-dk/CombSemiBandits/blob/master/main.py
+
+https://github.com/j2kun/exp3/blob/master/exp3.py
+
+https://github.com/kulinshah98/Multi-Armed-Bandit-Algorithms/tree/master/Code
+
+https://math.stackexchange.com/questions/3130866/modelling-congestion-games-in-python-without-tons-of-for-loop
