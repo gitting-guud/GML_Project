@@ -1,6 +1,8 @@
 # GML_Project
 Semi-bandits for Decentralized Optimal Transport on a Graph
 
+By KILANI AL HOUCEINE and NAOUMI SALMANE, under the supervision of Mr SEZNEC Julien
+
 The goal is to compare, on a graph structured dataset, the behavior of 3 agents :
 - A stochastic bandit agent 
 - An adversarial bandit agent 
