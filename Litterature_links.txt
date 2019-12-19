@@ -1,5 +1,6 @@
 http://karthikabinavs.xyz/surveySemiBandit.pdf
 
+https://arxiv.org/pdf/1502.03475.pdf
 
 https://jeremykun.com/2013/11/08/adversarial-bandits-and-the-exp3-algorithm/
 
@@ -12,3 +13,10 @@ https://github.com/j2kun/exp3/blob/master/exp3.py
 https://github.com/kulinshah98/Multi-Armed-Bandit-Algorithms/tree/master/Code
 
 https://math.stackexchange.com/questions/3130866/modelling-congestion-games-in-python-without-tons-of-for-loop
+https://s0ands0.github.io/python-graph-theory/graph/2019/04/07/graph-00.html == > Detailed Explanation of the environment code
+
+https://papers.nips.cc/paper/3962-non-stochastic-bandit-slate-problems.pdf => M sets problem
+
+Bandit online optimization over the permutahedron ==> Permutations problem
+
+
