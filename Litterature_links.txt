@@ -19,4 +19,5 @@ https://papers.nips.cc/paper/3962-non-stochastic-bandit-slate-problems.pdf => M 
 
 Bandit online optimization over the permutahedron ==> Permutations problem
 
+https://arxiv.org/pdf/1309.7367.pdf
 
