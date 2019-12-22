@@ -21,3 +21,5 @@ Bandit online optimization over the permutahedron ==> Permutations problem
 
 https://arxiv.org/pdf/1309.7367.pdf
 
+https://www.lume.ufrgs.br/bitstream/handle/10183/168972/001048296.pdf?sequence=1
+
