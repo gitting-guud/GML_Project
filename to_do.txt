@@ -1,4 +1,1 @@
-* Code the cost calculator (already began coding it in Environment>Exemple_usage.ipynb)
-	This class should update the costs of each arm by looking at the paths taken by 
-the other agents
- 
+* Code the Bandits algorithms 
