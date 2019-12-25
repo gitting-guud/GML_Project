@@ -1,1 +1,10 @@
 * Code the Bandits algorithms 
+
+Stochastic :
+	CombUCB : Done
+ 	USCB : TODO
+Adversarial :
+	CombExp : TODO
+
+Hybrid :
+	FTRL : TODO
