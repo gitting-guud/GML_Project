@@ -127,7 +127,7 @@ class Agent_to_graph_assignment :
 
         return self.agents_dicts
 
-    def get_optimal_paths(self, combinatorial=True):
+    def get_optimal_paths(self, combinatorial=True, time_limit=3):
         
         if self.assigned == False :
             raise ValueError("Agents not yet assigned to graph!")
@@ -140,16 +140,18 @@ class Agent_to_graph_assignment :
             paths_combinations = list(itertools.product(*list_paths))
             start = timer()
             j = 0
+            print('Testing {} combination of paths'.format(len(list(paths_combinations))))
             for list_arms_pulled_ in paths_combinations:
-                # j+=1
-                # if j>2000: break
+                j+=1
+                if timer() - start > time_limit:
+                    print('Time depassed {} seconds, only {} combinations where tested'.format(time_limit, j))
+                    break
                 costs = cost_calculator(list_arms_pulled=list(list_arms_pulled_), adj_matrix= self.adj_matrix).return_costs()[0]
                 total_cost = sum(map(lambda x: x['cost'], list(costs.values())))
                 total_costs.append(total_cost)
 
             end = timer()
-            print('Testing {} combination of paths'.format(len(list(paths_combinations))))
-            print('Total time to compute costs of all paths :{:.2f} s'.format(end-start))
+            print('Total time to compute costs:{:.2f} s'.format(end-start))
             optimal_paths = np.argsort(total_costs)
             print(np.sort(total_costs))
             print(' => The minimal cost is : ', total_costs[optimal_paths[0]])
