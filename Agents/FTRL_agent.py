@@ -19,12 +19,16 @@ class FTRL_agent_part1 :
     def upper_confidence_bound(self):
         return NotImplementedError
   
-    def update_costs_arms(self, U):
-        for j,arm in enumerate(self.arms_sto):
-            self.hat_cost_arms[j] = None
+    def update_L_hat(self, feedback):
+        
+        l_hat = None
+        self.L_hat += l_hat
 
     def step(self):
         return NotImplementedError
     
     def get_learning_rate(self, t):
         return 1.0 / np.sqrt(t)
+
+    def solve_optimization(self):
+        return NotImplementedError
