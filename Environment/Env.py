@@ -5,6 +5,12 @@ Created on Mon Dec 23 16:24:37 2019
 @author: Houcine's laptop
 """
 import numpy as np
+import itertools
+from functools import reduce
+from timeit import default_timer as timer
+from tqdm import tqdm_notebook
+
+
 
 class Vertex:
     """The vertex used in the graph class"""
@@ -91,11 +97,14 @@ class Graph:
         
 class Agent_to_graph_assignment :
     
-    def __init__(self, graph, list_agents_names):
+    def __init__(self, graph, list_agents_names, adj_matrix):
         self.g = graph
         self.list_agents_names = list_agents_names
+        self.adj_matrix = adj_matrix
+        self.assigned = False
         
     def reset(self):
+        self.nb_players = len(self.list_agents_names)
         self.agents_dicts = list()
         
     def random_assignement(self):
@@ -114,9 +123,40 @@ class Agent_to_graph_assignment :
                     dico["infos"]["start"], dico["infos"]["destination"] = start, destination 
                     dico["infos"]["arms"] = self.g.getAllPaths(start, destination)
             self.agents_dicts.append(dico)
-        
+        self.assigned = True
+
         return self.agents_dicts
-    
+
+    def get_optimal_paths(self, combinatorial=True):
+        
+        if self.assigned == False :
+            raise ValueError("Agents not yet assigned to graph!")
+
+        if combinatorial:
+            list_paths = list()
+            total_costs = list()
+            for i in range(self.nb_players):
+                list_paths.append(list(map(lambda d: d['path'], self.agents_dicts[i]["infos"]['arms'])))
+            paths_combinations = list(itertools.product(*list_paths))
+            start = timer()
+            j = 0
+            for list_arms_pulled_ in paths_combinations:
+                # j+=1
+                # if j>2000: break
+                costs = cost_calculator(list_arms_pulled=list(list_arms_pulled_), adj_matrix= self.adj_matrix).return_costs()[0]
+                total_cost = sum(map(lambda x: x['cost'], list(costs.values())))
+                total_costs.append(total_cost)
+
+            end = timer()
+            print('Testing {} combination of paths'.format(len(list(paths_combinations))))
+            print('Total time to compute costs of all paths :{:.2f} s'.format(end-start))
+            optimal_paths = np.argsort(total_costs)
+            print(np.sort(total_costs))
+            print(' => The minimal cost is : ', total_costs[optimal_paths[0]])
+            print(' => The optimal paths are : ', paths_combinations[optimal_paths[0]])
+        else:
+            pass
+
     
 class cost_calculator :
     
