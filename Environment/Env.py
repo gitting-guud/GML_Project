@@ -136,29 +136,37 @@ class Agent_to_graph_assignment :
             list_paths = list()
             total_costs = list()
             for i in range(self.nb_players):
-                list_paths.append(list(map(lambda d: d['path'], self.agents_dicts[i]["infos"]['arms'])))
-            paths_combinations = list(itertools.product(*list_paths))
+                list_paths.append(sorted(list(map(lambda d: d['path'], self.agents_dicts[i]["infos"]['arms'])), 
+                                        key=len, reverse=False))
+            paths_combinations = itertools.product(*list_paths)
             start = timer()
             j = 0
-            print('Testing {} combination of paths'.format(len(list(paths_combinations))))
+            min_cost = 99999
             for list_arms_pulled_ in paths_combinations:
                 j+=1
-                if timer() - start > time_limit:
-                    print('Time depassed {} seconds, only {} combinations where tested'.format(time_limit, j))
-                    break
                 costs = cost_calculator(list_arms_pulled=list(list_arms_pulled_), adj_matrix= self.adj_matrix).return_costs()[0]
                 total_cost = sum(map(lambda x: x['cost'], list(costs.values())))
                 total_costs.append(total_cost)
-
+                if total_cost < min_cost:
+                    min_cost = total_cost
+                    opt_path = list(list_arms_pulled_)
+                if timer() - start > time_limit:
+                    print('Time depassed {} seconds, only {} combinations where tested'.format(time_limit, j))
+                    aborted = True
+                    break
+            if not aborted :
+                print('Testing {} combination of paths'.format(j))
             end = timer()
             print('Total time to compute costs:{:.2f} s'.format(end-start))
-            optimal_paths = np.argsort(total_costs)
-            print(np.sort(total_costs))
-            print(' => The minimal cost is : ', total_costs[optimal_paths[0]])
-            print(' => The optimal paths are : ', paths_combinations[optimal_paths[0]])
+            # optimal_paths = np.argsort(total_costs)
+            # print(np.sort(total_costs))
+            print(' => The minimal cost is : ', min_cost)
+            print(' => The optimal paths are : ', opt_path)
         else:
             pass
 
+
+        return None
     
 class cost_calculator :
     
