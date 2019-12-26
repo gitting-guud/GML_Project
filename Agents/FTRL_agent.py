@@ -32,3 +32,6 @@ class FTRL_agent_part1 :
 
     def solve_optimization(self):
         return NotImplementedError
+
+    def sample_action(self, x):
+        return NotImplementedError
