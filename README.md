@@ -17,6 +17,5 @@ For the third agent : We plan to use the algorithm presented by the paper
 The files in this repository are then :
 - Environment : The graph structed datasets on where we will run our MAB agents (We
 - Agents : The codes of the different agents implemented (There a  step of adaptation of the inputs/outputs we will see if we are going to do it in the Environments level or in the Agents level)
-- Oracle : Based on a convex optimization technique reducing the total quadratic cost on a Graph setting, that will output the global optimal paths/decision of the agents interacting in the environment.
 - Comparisons : jupyter notebooks to perform the behavioural analysis of the agents and the regret analysis w.r.t to the baseline provided by the Oracle.
 - Report_Presentation : The final summary reporting the figures from Comparisons and the litterature and that should be submitted and the slides of the presentation.
