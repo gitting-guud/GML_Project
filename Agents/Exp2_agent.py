@@ -31,7 +31,7 @@ class Exp2_agent_part2 :
         self.arm_played = arm_played
         self.edge_presence_in_arm_indexes = edge_presence_in_arm_indexes
         self.lr = 1/np.sqrt(max(t,1))
-
+        self.old_proba_over_arms = old_proba_over_arms
         
     def update_own_statistics(self):
         """Update own beliefs w.r.t the observations"""

@@ -5,7 +5,7 @@ Created on Fri Dec 27 12:19:15 2019
 @author: Houcine's laptop
 """
 
-from Env import  Graph
+from .Env import  Graph
 import numpy as np
 
 class Generate_Graph :
@@ -29,11 +29,11 @@ class Generate_Graph :
         for i in range(self.V):
             g.add(i,i)
 
-        adj_matrix = np.zeros((V,V))
+        adj_matrix = np.zeros((self.V,self.V))
         all_edges = {}
-        for i in range(1,V):
-            for j in range(i,V):
-                if np.random.random() > self.dropout_egde_rate :
+        for i in range(1,self.V):
+            for j in range(i,self.V):
+                if np.random.random() > self.dropout_edge_rate :
                     adj_matrix[i,j], adj_matrix[j,i] = 1, 1
                     g.addEdge(i,j,1)
                     g.addEdge(j,i,1)
@@ -44,7 +44,7 @@ class Generate_Graph :
     
     def build_OW_graph(self):
         
-        f = open("OW.net")
+        f = open("/OW.net")
         string = f.read()
         for row in string.split("\n"):
             names = {}
@@ -53,7 +53,7 @@ class Generate_Graph :
                 names[row[-1]] = i
                 i+=1
         
-        f = open("OW.net")
+        f = open("/OW.net")
         string = f.read()
         all_edges = {}
         for row in string.split("\n"):
@@ -80,8 +80,8 @@ class Generate_Graph :
     def build(self):
         
         if self.graph_type == "Random_Sparse_graph":
-            return build_Random_Sparse_graph()
+            return self.build_Random_Sparse_graph()
         
         if self.graph_type == "OW":
-            return build_OW_graph()
+            return self.build_OW_graph()
             
