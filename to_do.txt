@@ -6,7 +6,7 @@ Stochastic :
  	USCB : TODO
 Adversarial :
 	Exp2: Done
-	LogBarrier:
+	LogBarrier: OnGoing
 
 Hybrid :
 	FTRL : TODO
