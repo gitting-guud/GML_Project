@@ -19,9 +19,11 @@ class CombUCB_agent_part1 :
         
         self.exploration_parameter = exploration_parameter # parameter of the UCB update
         
+  
+        
     def upper_confidence_bound(self):
         
-        bound = np.sqrt(self.exploration_parameter * np.log(self.t) / self.history_visited_edges)
+        bound = np.sqrt(self.exploration_parameter * np.log(max(self.t, 1)) / self.history_visited_edges)
         U = np.array(list(self.dict_hat_costs_edges.values())) + bound
         return U
   

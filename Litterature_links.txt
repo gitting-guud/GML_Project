@@ -29,3 +29,6 @@ https://github.com/bstabler/TransportationNetworks
 https://github.com/alohia/combandits/blob/master/report/report.pdf
 
 https://www.geeksforgeeks.org/find-paths-given-source-destination/
+
+https://arxiv.org/pdf/1204.4710.pdf ==> EXP2 semi bandits
+https://arxiv.org/pdf/1801.03265.pdf ==> LogBarrier semi bandits

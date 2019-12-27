@@ -2,9 +2,11 @@
 
 Stochastic :
 	CombUCB : Done
+	ThompsonSampling : TODO
  	USCB : TODO
 Adversarial :
-	CombExp : TODO
+	Exp2: Done
+	LogBarrier:
 
 Hybrid :
 	FTRL : TODO

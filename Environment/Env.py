@@ -142,6 +142,7 @@ class Agent_to_graph_assignment :
             start = timer()
             j = 0
             min_cost = 99999
+            aborted = False
             for list_arms_pulled_ in paths_combinations:
                 j+=1
                 costs = cost_calculator(list_arms_pulled=list(list_arms_pulled_), adj_matrix= self.adj_matrix).return_costs()[0]
