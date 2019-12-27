@@ -186,6 +186,8 @@ class cost_calculator :
         
     def reset(self):
         for key in self.edges_count_reset.keys():
+#             s, d = key[0], key[1]
+#             self.edges_count_reset[key].append(self.adj_matrix[s,d])
             self.edges_count_reset[key].append(0)
 #         self.edges_count = self.edges_count_reset.copy()
         
@@ -219,8 +221,9 @@ class cost_calculator :
                 tuple_row, tuple_row_inv = tuple(row), tuple(row_inversed)
                 if tuple_row in self.edges_count_reset.keys():
                     # we have an undirected graph
-                    self.edges_count_reset[tuple_row][-1] += 1
-                    self.edges_count_reset[tuple_row_inv][-1] += 1
+                    s,d = tuple_row[0], tuple_row[1]
+                    self.edges_count_reset[tuple_row][-1] += self.adj_matrix[s,d]
+                    self.edges_count_reset[tuple_row_inv][-1] += self.adj_matrix[d,s]
             
             for i, row in enumerate(edges_time_j_jplusone):
                 if tuple(row) in self.edges_count_reset.keys():
