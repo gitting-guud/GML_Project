@@ -42,6 +42,34 @@ class Generate_Graph :
                     
         return g, adj_matrix, all_edges
     
+    
+    def build_Sioux_Falls_graph(self):
+
+        f = open("../Environment/SiouxFalls_flow.tntp")
+        string = f.read()
+        
+        tab = np.array([row.split("\t") for row in string.split("\n")][1:-1])
+        start_nodes = tab[:,0].astype(int)-1
+        destination_nodes = tab[:,1].astype(int)-1
+        nodes = np.unique(np.concatenate((start_nodes, destination_nodes)))
+        
+        g = Graph()
+        for i in nodes :
+            g.add(i,i)
+
+        adj_matrix = np.zeros((len(nodes),len(nodes)))
+        all_edges = {}
+        for row in tab : 
+            s = int(row[0])-1
+            d = int(row[1])-1
+            cost = float(row[-1])
+            adj_matrix[s,d] = cost
+            all_edges[(s,d)] = cost    
+            g.addEdge(s,d,cost)
+
+                    
+        return g, adj_matrix, all_edges
+    
     def build_OW_graph(self):
         
         f = open("/OW.net")
@@ -84,4 +112,6 @@ class Generate_Graph :
         
         if self.graph_type == "OW":
             return self.build_OW_graph()
+        if self.graph_type == "Sioux_Falls":
+            return self.build_Sioux_Falls_graph()
             
