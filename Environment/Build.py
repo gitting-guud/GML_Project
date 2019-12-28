@@ -72,7 +72,7 @@ class Generate_Graph :
     
     def build_OW_graph(self):
         
-        f = open("/OW.net")
+        f = open("../Environment/OW.net")
         string = f.read()
         for row in string.split("\n"):
             names = {}
@@ -81,7 +81,7 @@ class Generate_Graph :
                 names[row[-1]] = i
                 i+=1
         
-        f = open("/OW.net")
+        f = open("../Environment/OW.net")
         string = f.read()
         all_edges = {}
         for row in string.split("\n"):
