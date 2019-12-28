@@ -9,4 +9,4 @@ Adversarial :
 	LogBarrier: OnGoing
 
 Hybrid :
-	FTRL : TODO
+	FTRL : Done
