@@ -74,13 +74,12 @@ class Generate_Graph :
         
         f = open("../Environment/OW.net")
         string = f.read()
+        names = {}
+        i = 0
         for row in string.split("\n"):
-            names = {}
-            i = 0
             if "node" in row and len(row) == 6 :
                 names[row[-1]] = i
                 i+=1
-        
         f = open("../Environment/OW.net")
         string = f.read()
         all_edges = {}
@@ -91,19 +90,20 @@ class Generate_Graph :
                 all_edges[(names[s], names[d])] = cost
                 all_edges[(names[d], names[s])] = cost
         
-        
         g = Graph()
         for i in range(len(names)):
-            g.add(i, names[names.keys()[i]])
+            g.add(i, names[list(names.keys())[i]])
             
         adj_matrix = np.zeros((len(names), len(names)))
         for i in range(1,len(names)):
             for j in range(i,len(names)):
-                adj_matrix[i,j], adj_matrix[j,i] = all_edges[(i,j)], all_edges[(j,i)]
-                g.addEdge(i,j,all_edges[(i,j)])
-                g.addEdge(j,i,all_edges[(j,i)])
+                if (i,j) in all_edges.keys():
+                    adj_matrix[i,j], adj_matrix[j,i] = all_edges[(i,j)], all_edges[(j,i)]
+                    g.addEdge(i,j,all_edges[(i,j)])
+                    g.addEdge(j,i,all_edges[(j,i)])
         
         return g, adj_matrix, all_edges
+    
     
     def build(self):
         
