@@ -127,6 +127,30 @@ class Agent_to_graph_assignment :
 
         return self.agents_dicts
 
+    def defined_assignement(self, list_destinations):
+        
+        self.reset()
+        assert len(list_destinations) == self.nb_players
+
+        for i, name in enumerate(self.list_agents_names):
+            dico = dict()
+            dico["name"] = name
+            dico["infos"] = {}
+            Path_not_exists = True 
+            while Path_not_exists :
+                start, destination = list_destinations[i]
+                if len(self.g.getAllPaths(start, destination)) == 0 :
+                    raise ValueError('There is no path between nodes {} and {} for agent {}'.format(start, destination,
+                                                                                                    name))
+                else :
+                    Path_not_exists = False
+                    dico["infos"]["start"], dico["infos"]["destination"] = start, destination 
+                    dico["infos"]["arms"] = self.g.getAllPaths(start, destination)
+            self.agents_dicts.append(dico)
+        self.assigned = True
+
+        return self.agents_dicts
+
     def get_optimal_paths(self, combinatorial=True, time_limit=3):
         
         if self.assigned == False :
