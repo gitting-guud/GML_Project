@@ -36,8 +36,9 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
     
     ind_lim = 0
     for ind_agent, agent_name in enumerate(agents):
-        if ("ran" not in agent_name) | ("fix" not in agent_name) :
-            ind_lim = ind_agent
+        if ("ran" not in agent_name):
+            if ("fix" not in agent_name) :
+                ind_lim = ind_agent
     
     assignement = Agent_to_graph_assignment(graph=g,
                                         list_agents_names = agents, 
