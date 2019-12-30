@@ -167,7 +167,7 @@ class Agent_to_graph_assignment :
             pass
 
 
-        return None
+        return min_cost, opt_path
     
 class cost_calculator :
     
