@@ -16,10 +16,15 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
                   gamma_hyb=10.0, time_limit=60) : 
     
     assert graph_type in ['Random_Sparse_graph', 'Sioux_Falls', 'OW']
+    print('Graph creation...')
     generator = Generate_Graph(graph_type=graph_type, 
                            nb_vertices= number_vertices,
                            dropout_edge_rate=dropout_edge_rate)
     g, adj_matrix, all_edges = generator.build()
+    print('Graph creation : Done')
+    
+    print("-------------------------------------------------------------------------------------------")
+    print("Agents creation, random (start, destination) assignment and all possible paths computation ...")
     
     agents_sto = ['sto{}'.format(i) for i in range(1,n_sto+1) if n_sto>0]
     agents_adv = ["adv{}".format(i) for i in range(1,n_adv+1) if n_adv>0]
@@ -29,13 +34,25 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
     
     agents = agents_sto + agents_adv + agents_hyb + agents_random + agents_fixed
     
+    ind_lim = 0
+    for ind_agent, agent_name in enumerate(agents):
+        if ("ran" not in agent_name) | ("fix" not in agent_name) :
+            ind_lim = ind_agent
+    
     assignement = Agent_to_graph_assignment(graph=g,
                                         list_agents_names = agents, 
                                         adj_matrix=adj_matrix)
     agents_dicts = assignement.random_assignement()
+    print("Agents creation, random (start, destination) assignment and all possible paths computation  : Done")
+    print("-------------------------------------------------------------------------------------------")
+    
+    print("Oracle calculations ==> Global optimal paths and costs...")
+    min_cost, opt_path = assignement.get_optimal_paths(combinatorial=True, time_limit=time_limit)
+    opt_path_agents = cost_calculator(list_arms_pulled=opt_path, adj_matrix= adj_matrix).return_costs()[0]
+    print("Oracle calculations ==> Global optimal paths and costs : Done")
+    print("-------------------------------------------------------------------------------------------")
     
     summary_experiences= []
-
     tracker_probas_over_arms_adv = {}
     arms_possible = {}
     edge_presence_in_arm_indexes = {}
@@ -44,10 +61,6 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
         arms_possible[agent_name] = []
         for arm in agents_dicts[ind_agent]["infos"]['arms']:
             arms_possible[agent_name].append(arm["path"]) 
-    
-    print('=> Agents Created', end='\n')
-    min_cost, opt_path = assignement.get_optimal_paths(combinatorial=True, time_limit=time_limit)
-    opt_path_agents = cost_calculator(list_arms_pulled=opt_path, adj_matrix= adj_matrix).return_costs()[0]
     
     with tqdm_notebook(range(nb_iterations), desc=f'Simulation') as trange:
         for t in trange:
@@ -103,7 +116,15 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
             cc = cost_calculator(list_arms_pulled=list_arms_pulled, 
                                  adj_matrix= adj_matrix)
             summary_round, history_costs_edges = cc.return_costs()
-            summary_experiences.append(summary_round)
+            
+
+            k_ = list(summary_round.keys())
+            v_ = list(summary_round.values())
+            truncated_summary_round = {}
+            for i in range(ind_lim+1):
+                truncated_summary_round[k_[i]] = v_[i]
+            summary_experiences.append(truncated_summary_round)
+            
             total_cost = sum(map(lambda x: x['cost'], list(summary_round.values())))
             trange.set_postfix(Total_Cost=total_cost)
             #######################################################################################################    
@@ -150,14 +171,21 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
                                                   )
                     tracker_probas_over_arms_adv[agent_name] = agent_class.update_own_statistics()
     
+    print("Paths found by the agents :")
+    s = 0
+    for i in range(ind_lim+1):
+        print(agents[i], " ", summary_experiences[-1][i])
+        s += summary_experiences[-1][i]["cost"]
+    print("Final total cost on the network :", s) 
+    
     with plt.style.context('ggplot'):
         plt.figure(figsize=(12,9))
 
         for ind_agent, agent_name in enumerate(agents):
-
-            plt.plot(range(nb_iterations-1),
-                     [summary_experiences[t][ind_agent]["cost"] for t in range(nb_iterations-1)],
-                     label = agent_name + ' Optimal_cost_found = {:.1f}'.format(opt_path_agents[ind_agent]['cost']))
+            if ind_agent <=ind_lim :
+                plt.plot(range(nb_iterations-1),
+                         [summary_experiences[t][ind_agent]["cost"] for t in range(nb_iterations-1)],
+                         label = agent_name + ' Optimal_cost_found = {:.1f}'.format(opt_path_agents[ind_agent]['cost']))
         plt.legend()
         plt.xlabel('Iterations')
         plt.ylabel('Cost')
@@ -168,14 +196,14 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
         plt.figure(figsize=(12,9))
         total_costs = list()
         for t in range(nb_iterations-1):
-            cost = sum([summary_experiences[t][ind_agent]["cost"] for ind_agent in range(len(agents))])
+            cost = sum([summary_experiences[t][ind_agent]["cost"] for ind_agent in range(ind_lim+1)])
             total_costs.append(cost)
 
         plt.plot(total_costs)
         plt.xlabel('Iterations')
         plt.ylabel('Cost')
-        plt.title('Evolution of total cost, optimal_cost_found= {:.1f}'.format(min_cost))
+        plt.title('Evolution of total cost | Oracle\'s Optimal cost : {:.1f} | optimal_cost_found= {:.1f}'.format(min_cost,s))
         plt.show()
 
-    
+    print("****************************************************************************************************************************")
     return summary_experiences
