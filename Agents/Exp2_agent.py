@@ -22,17 +22,25 @@ class Exp2_agent_part1 :
     
 class Exp2_agent_part2 :
     
-    def __init__(self, t, arm_played, arms_adv, cost_edges_observed, old_proba_over_arms, edge_presence_in_arm_indexes):
+    def __init__(self, t, arm_played, arms_adv, cost_edges_observed, old_proba_over_arms, edge_presence_in_arm_indexes, 
+                lr_type = 1):
         
         self.arms_adv = arms_adv
         self.t = t
         self.cost_edges_observed = cost_edges_observed
         self.arm_played = arm_played
         self.edge_presence_in_arm_indexes = edge_presence_in_arm_indexes
-        self.lr = 1/np.sqrt(max(t,1))
-#         self.lr = 1/(4 * np.sqrt(max(t,1)))
-#         self.lr = 4 * np.sqrt(np.log(t+1)/(t+1))
-#         self.lr = 4 * np.sqrt(np.log(max(t,1))/max(t,1))
+        if lr_type == 1 :
+            self.lr = 1/np.sqrt(max(t,1))
+        if lr_type == 2 :
+            self.lr = 1/(4 * np.sqrt(max(t,1)))
+        if lr_type == 3 :
+            self.lr = 4 * np.sqrt(np.log(t+1)/(t+1))
+        if lr_type == 4 :
+            self.lr = 4 * np.sqrt(np.log(max(t,1))/max(t,1))
+        if lr_type == 5 :
+            self.lr = 0.1
+   
         self.old_proba_over_arms = old_proba_over_arms
         
     def update_own_statistics(self):
@@ -54,6 +62,6 @@ class Exp2_agent_part2 :
             self.new_proba_over_arms[j] = np.exp(-self.lr * np.dot(self.edge_presence_in_arm_indexes[:,j], zhat)) * self.old_proba_over_arms[j]
         
         self.new_proba_over_arms = self.new_proba_over_arms / self.new_proba_over_arms.sum()
-            
-        
+
+
         return self.new_proba_over_arms

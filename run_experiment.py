@@ -36,7 +36,7 @@ def create_graph(graph_type, number_vertices=20, dropout_edge_rate=0.9):
 
     return g, adj_matrix, all_edges
 def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', assignement_dests=None, nb_iterations=100, n_sto=1, n_adv=1, n_hyb=1, 
-                   n_rand=1, n_fix=1, exploration_parameter_stoc=1.5, eta_hyb=0.1, Bt_hyb=0.01, use_adaptif_lr_hyb=False,
+                   n_rand=1, n_fix=1, exploration_parameter_stoc=1.5, lr_type_exp2 = 1, eta_hyb=0.1, Bt_hyb=0.01, use_adaptif_lr_hyb=False,
                   gamma_hyb=10.0, time_limit=60) : 
     
     print("Agents creation, {} (start, destination) assignment and all possible paths computation ...".format(assignement_type))
@@ -194,7 +194,8 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
                                                    arms_adv=arms_possible[agent_name],
                                                    cost_edges_observed= history_costs_edges,
                                                    old_proba_over_arms=tracker_probas_over_arms_adv[agent_name],
-                                                   edge_presence_in_arm_indexes=edge_presence_in_arm_indexes[agent_name]
+                                                   edge_presence_in_arm_indexes=edge_presence_in_arm_indexes[agent_name],
+                                                   lr_type=lr_type_exp2
                                                   )
                     tracker_probas_over_arms_adv[agent_name] = agent_class.update_own_statistics()
     
@@ -237,7 +238,7 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
 
 
 def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_iterations=100, n_sto=1, n_adv=1, n_hyb=1, 
-                   n_rand=1, n_fix=1, exploration_parameter_stoc=1.5, eta_hyb=0.1, Bt_hyb=0.01, use_adaptif_lr_hyb=False,
+                   n_rand=1, n_fix=1, exploration_parameter_stoc=1.5, lr_type_exp2 = 1, eta_hyb=0.1, Bt_hyb=0.01, use_adaptif_lr_hyb=False,
                   gamma_hyb=10.0, time_limit=60) : 
     
     assert graph_type in ['Random_Sparse_graph', 'Sioux_Falls', 'OW']
@@ -393,7 +394,8 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
                                                    arms_adv=arms_possible[agent_name],
                                                    cost_edges_observed= history_costs_edges,
                                                    old_proba_over_arms=tracker_probas_over_arms_adv[agent_name],
-                                                   edge_presence_in_arm_indexes=edge_presence_in_arm_indexes[agent_name]
+                                                   edge_presence_in_arm_indexes=edge_presence_in_arm_indexes[agent_name],
+                                                   lr_type=lr_type_exp2
                                                   )
                     tracker_probas_over_arms_adv[agent_name] = agent_class.update_own_statistics()
     
