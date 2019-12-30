@@ -93,8 +93,8 @@ class Graph:
 
        if not path:
            return fullPath
-       
         
+
 class Agent_to_graph_assignment :
     
     def __init__(self, graph, list_agents_names, adj_matrix):
@@ -126,7 +126,7 @@ class Agent_to_graph_assignment :
         self.assigned = True
 
         return self.agents_dicts
-
+    
     def defined_assignement(self, list_destinations):
         
         self.reset()

@@ -21,7 +21,7 @@ class FPL_agent_part1 :
         self.use_adaptif_lr = use_adaptif_lr
 
     def get_learning_rate(self):
-        return 1.0 / np.sqrt(self.t)
+        return 1.0 / np.sqrt(self.t + 1)
 
 
     def update_costs_arms(self, U):
