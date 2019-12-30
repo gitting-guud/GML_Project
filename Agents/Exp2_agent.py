@@ -16,7 +16,6 @@ class Exp2_agent_part1 :
         self.proba_over_arms = proba_over_arms
           
     def step(self):
-        
         index = np.random.choice(len(self.arms_adv), p= self.proba_over_arms)
         arm_to_play = self.arms_adv[index]
         return arm_to_play
@@ -31,6 +30,9 @@ class Exp2_agent_part2 :
         self.arm_played = arm_played
         self.edge_presence_in_arm_indexes = edge_presence_in_arm_indexes
         self.lr = 1/np.sqrt(max(t,1))
+#         self.lr = 1/(4 * np.sqrt(max(t,1)))
+#         self.lr = 4 * np.sqrt(np.log(t+1)/(t+1))
+#         self.lr = 4 * np.sqrt(np.log(max(t,1))/max(t,1))
         self.old_proba_over_arms = old_proba_over_arms
         
     def update_own_statistics(self):
@@ -49,7 +51,7 @@ class Exp2_agent_part2 :
         self.new_proba_over_arms = np.zeros(len(self.arms_adv))
         
         for j, arm in enumerate(self.arms_adv):
-            self.new_proba_over_arms[j] = -self.lr * np.dot(self.edge_presence_in_arm_indexes[:,j], zhat) * self.old_proba_over_arms[j]
+            self.new_proba_over_arms[j] = np.exp(-self.lr * np.dot(self.edge_presence_in_arm_indexes[:,j], zhat)) * self.old_proba_over_arms[j]
         
         self.new_proba_over_arms = self.new_proba_over_arms / self.new_proba_over_arms.sum()
             
