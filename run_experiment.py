@@ -35,9 +35,7 @@ def create_graph(graph_type, number_vertices=20, dropout_edge_rate=0.9):
     print("-------------------------------------------------------------------------------------------")
 
     return g, adj_matrix, all_edges
-def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', assignement_dests=None, nb_iterations=100, n_sto=1, n_adv=1, n_hyb=1, 
-                   n_rand=1, n_fix=1, exploration_parameter_stoc=1.5, lr_type_exp2 = 1, eta_hyb=0.1, Bt_hyb=0.01, use_adaptif_lr_hyb=False,
-                  gamma_hyb=10.0, time_limit=60) : 
+def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', assignement_dests=None, nb_iterations=100, n_sto=1, n_adv=1,                           n_hyb=1,n_rand=1, n_fix=1, exploration_parameter_stoc=1.5, lr_type_exp2 = 1, eta_hyb=0.1, Bt_hyb=0.01,                                     use_adaptif_lr_hyb=False,gamma_hyb=10.0, time_limit=60) : 
     
     print("Agents creation, {} (start, destination) assignment and all possible paths computation ...".format(assignement_type))
     
@@ -61,14 +59,14 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
 
     if assignement_type=='random' :
         agents_dicts = assignement.random_assignement()
-    elif (assignement_dests is None) and (assignement_type=='fixed'): 
-        assignement_dests_ = get_orig_dest(g, size=len(agents_sto + agents_adv + agents_hyb))
-        assignement_dests_other = get_orig_dest(g, size=len(agents_random + agents_fixed))
-        agents_dicts = assignement.defined_assignement(list_destinations=assignement_dests_ + assignement_dests_other)
-    else :
-        assignement_dests_ = assignement_dests
-        assignement_dests_other = get_orig_dest(g, size=len(agents_random + agents_fixed))
-        agents_dicts = assignement.defined_assignement(list_destinations=assignement_dests_ + assignement_dests_other)
+#     elif (assignement_dests is None) and (assignement_type=='fixed'): 
+#         assignement_dests_ = get_orig_dest(g, size=len(agents_sto + agents_adv + agents_hyb))
+#         assignement_dests_other = get_orig_dest(g, size=len(agents_random + agents_fixed))
+#         agents_dicts = assignement.defined_assignement(list_destinations=assignement_dests_ + assignement_dests_other)
+#     else :
+#         assignement_dests_ = assignement_dests
+#         assignement_dests_other = get_orig_dest(g, size=len(agents_random + agents_fixed))
+#         agents_dicts = assignement.defined_assignement(list_destinations=assignement_dests_ + assignement_dests_other)
 
     
     print("Agents creation, {} (start, destination) assignment and all possible paths computation  : Done".format(assignement_type))
@@ -152,7 +150,7 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
                 truncated_summary_round[k_[i]] = v_[i]
             summary_experiences.append(truncated_summary_round)
             
-            total_cost = sum(map(lambda x: x['cost'], list(summary_round.values())))
+            total_cost = sum(map(lambda x: x['cost'], list(truncated_summary_round.values())))
             trange.set_postfix(Total_Cost=total_cost)
             #######################################################################################################    
             # Updates
@@ -217,6 +215,7 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
         plt.legend()
         plt.xlabel('Iterations')
         plt.ylabel('Cost')
+        plt.ylim(ymin=0) 
         plt.title('Evolution of agents cost')
         plt.show()
         
@@ -230,11 +229,12 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
         plt.plot(total_costs)
         plt.xlabel('Iterations')
         plt.ylabel('Cost')
+        plt.ylim(ymin=0) 
         plt.title('Evolution of total cost | Oracle\'s Optimal cost : {:.1f} | optimal_cost_found= {:.1f}'.format(min_cost,s))
         plt.show()
 
     print("****************************************************************************************************************************")
-    return summary_experiences, assignement_dests_
+    return summary_experiences
 
 
 def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_iterations=100, n_sto=1, n_adv=1, n_hyb=1, 
@@ -417,6 +417,7 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
         plt.legend()
         plt.xlabel('Iterations')
         plt.ylabel('Cost')
+        plt.ylim(ymin=0) 
         plt.title('Evolution of agents cost')
         plt.show()
         
@@ -430,6 +431,7 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
         plt.plot(total_costs)
         plt.xlabel('Iterations')
         plt.ylabel('Cost')
+        plt.ylim(ymin=0) 
         plt.title('Evolution of total cost | Oracle\'s Optimal cost : {:.1f} | optimal_cost_found= {:.1f}'.format(min_cost,s))
         plt.show()
 
