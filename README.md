@@ -3,19 +3,17 @@ Semi-bandits for Decentralized Optimal Transport on a Graph
 
 By KILANI AL HOUCEINE and NAOUMI SALMANE, under the supervision of Mr SEZNEC Julien
 
-The goal is to compare, on a graph structured dataset, the behavior of 3 agents :
-- A stochastic bandit agent 
-- An adversarial bandit agent 
-- A "hybrid" agent that uses both stategies (To be determined how it switches between the algorithms during the run)
+In this project, we consider a mass (e.g. people) transporting on a resistive graph.From a global perspective, a central planner might be interested in choosing eachroute to minimize the global cost (quadratic in each edge flow).  The constraintthat each unit of mass starts from its starting node and successfully reaches itsendpoint can be formulated as a linear constraint. Hence, this is a standard convexoptimization problem.  Nonetheless, in a decentralized setting, each player willchoose its route to minimize its local cost (linear in the flow of each visited edge).To do so, players are not allowed to communicate and are hence doomed to tryroutes sequentially. Moreover, at each try, all the players choose a route and onlyobserve the flow in the visited edges (semi-bandit feedback). The cost of a route istherefore dependent on the other players actions. Hence, rewards are not stochastic,but probably not fully adversarial as well.
 
-For the first two agents, we will use the adapted versions of UCB (stochastic) "USCB" and Exp3 (adversarial) "CombExp" to the case of a semi-bandit feedback 
-of R.Combes paper "Combinatorial Bandits Revisited" : https://arxiv.org/pdf/1502.03475.pdf 
+For the [agents](https://github.com/gitting-guud/GML_Project/tree/master/Agents) :
+- Stochastic agent : [UCB1](http://karthikabinavs.xyz/surveySemiBandit.pdf)
+- Adversarial agent : [Exp2](https://arxiv.org/pdf/1204.4710.pdf)
+- Hybdrid agent : [FPL-Trix](https://github.com/alohia/combandits/blob/master/report/report.pdf)
 
-For the third agent : We plan to use the algorithm presented by the paper 
-"Beating Stochastic and Adversarial Semi-bandits Optimally and Simultaneously" of J.Zimmert (https://github.com/diku-dk/CombSemiBandits)
+For the [environments](https://github.com/gitting-guud/GML_Project/tree/master/Environment), we implemented the following graphs :
+- Random Sparse Graph : a fully connected graph where we discard randomly a fraction of the edges. 
+- OW Network 
+- Sioux Falls network 
 
-The files in this repository are then :
-- Environment : The graph structed datasets on where we will run our MAB agents (We
-- Agents : The codes of the different agents implemented (There a  step of adaptation of the inputs/outputs we will see if we are going to do it in the Environments level or in the Agents level)
-- Comparisons : jupyter notebooks to perform the behavioural analysis of the agents and the regret analysis w.r.t to the baseline provided by the Oracle.
-- Report_Presentation : The final summary reporting the figures from Comparisons and the litterature and that should be submitted and the slides of the presentation.
+We perform [comparisons](https://github.com/gitting-guud/GML_Project/tree/master/Comparisons) by launching the agents on the environments and get figures and [images](https://github.com/gitting-guud/GML_Project/tree/master/Images)
+
