@@ -31,8 +31,8 @@ class Generate_Graph :
 
         adj_matrix = np.zeros((self.V,self.V))
         all_edges = {}
-        for i in range(1,self.V):
-            for j in range(i,self.V):
+        for i in range(self.V):
+            for j in range(i+1,self.V):
                 if np.random.random() > self.dropout_edge_rate :
                     adj_matrix[i,j], adj_matrix[j,i] = 1, 1
                     g.addEdge(i,j,1)
@@ -95,8 +95,8 @@ class Generate_Graph :
             g.add(i, names[list(names.keys())[i]])
             
         adj_matrix = np.zeros((len(names), len(names)))
-        for i in range(1,len(names)):
-            for j in range(i,len(names)):
+        for i in range(len(names)):
+            for j in range(i+1,len(names)):
                 if (i,j) in all_edges.keys():
                     adj_matrix[i,j], adj_matrix[j,i] = all_edges[(i,j)], all_edges[(j,i)]
                     g.addEdge(i,j,all_edges[(i,j)])

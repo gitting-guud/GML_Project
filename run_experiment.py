@@ -101,9 +101,9 @@ def run_experiment_compar(g, adj_matrix, all_edges, assignement_type='random', a
 
                         beliefs_hat_cost_edges = {} # beliefs of each agent
                         own_history_of_visits = {} # history of visits of edges proper to each agent
-                        for agent_name in agents :
-                            beliefs_hat_cost_edges[agent_name] = all_edges.copy()
-                            own_history_of_visits[agent_name] = visits_ini.copy() # initializing the number of visits by 1
+                        for agent_name_ in agents :
+                            beliefs_hat_cost_edges[agent_name_] = all_edges.copy()
+                            own_history_of_visits[agent_name_] = visits_ini.copy() # initializing the number of visits by 1
                     if "sto" in agent_name :
                         agent_class = CombUCB_agent_part1(t=t, 
                                                           arms_sto=arms_possible[agent_name], 
@@ -303,9 +303,9 @@ def run_experiment(graph_type, number_vertices=20, dropout_edge_rate=0.9, nb_ite
 
                         beliefs_hat_cost_edges = {} # beliefs of each agent
                         own_history_of_visits = {} # history of visits of edges proper to each agent
-                        for agent_name in agents :
-                            beliefs_hat_cost_edges[agent_name] = all_edges.copy()
-                            own_history_of_visits[agent_name] = visits_ini.copy() # initializing the number of visits by 1
+                        for agent_name_ in agents :
+                            beliefs_hat_cost_edges[agent_name_] = all_edges.copy()
+                            own_history_of_visits[agent_name_] = visits_ini.copy() # initializing the number of visits by 1
                     if "sto" in agent_name :
                         agent_class = CombUCB_agent_part1(t=t, 
                                                           arms_sto=arms_possible[agent_name], 
